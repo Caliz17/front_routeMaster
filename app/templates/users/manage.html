@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="mb-0">Administración de usuarios</h2>
+    <small class="text-muted">Gestiona roles y estados del equipo.</small>
+  </div>
+</div>
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-body">
+        <h5 class="mb-3">Actualizar rol</h5>
+        <form method="post">
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            {{ form.user_id.label(class='form-label') }}
+            {{ form.user_id(class='form-select form-select-lg') }}
+            {% for error in form.user_id.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+          </div>
+          <div class="mb-3">
+            {{ form.role_id.label(class='form-label') }}
+            {{ form.role_id(class='form-select form-select-lg') }}
+            {% for error in form.role_id.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+          </div>
+          <div class="form-check form-switch mb-3">
+            {{ form.is_active(class='form-check-input') }}
+            {{ form.is_active.label(class='form-check-label') }}
+          </div>
+          <div class="d-grid">
+            {{ form.submit(class='btn btn-primary btn-lg') }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-body">
+        <h5 class="mb-3">Usuarios registrados</h5>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Creado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}
+              <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role.name if user.role else 'N/A' }}</td>
+                <td>
+                  {% if user.is_active %}
+                  <span class="badge bg-success">Activo</span>
+                  {% else %}
+                  <span class="badge bg-secondary">Inactivo</span>
+                  {% endif %}
+                </td>
+                <td>{{ user.created_at|default('') }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

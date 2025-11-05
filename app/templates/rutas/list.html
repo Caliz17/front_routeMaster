@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="mb-0">Rutas</h2>
+    <small class="text-muted">Planificación de rutas de venta y entrega.</small>
+  </div>
+  {% if current_user.has_permission('rutas.create') %}
+  <a href="{{ url_for('rutas.create') }}" class="btn btn-primary btn-lg">Nueva ruta</a>
+  {% endif %}
+</div>
+<div class="card shadow-sm border-0">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Estado</th>
+            <th>Clientes</th>
+            <th>Asignaciones</th>
+            <th class="text-end">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ruta in rutas %}
+          <tr>
+            <td>{{ ruta.nombre }}</td>
+            <td>{{ ruta.tipo }}</td>
+            <td>{% if ruta.estado %}<span class="badge bg-success">Activa</span>{% else %}<span class="badge bg-secondary">Inactiva</span>{% endif %}</td>
+            <td>{{ ruta.rutas_clientes|length }}</td>
+            <td>{{ ruta.rutas_asignadas|length }}</td>
+            <td class="text-end">
+              <div class="btn-group">
+                <a href="{{ url_for('rutas.optimizada', ruta_id=ruta.id) }}" class="btn btn-outline-info btn-sm">Optimizada</a>
+                {% if current_user.has_permission('rutas.update') %}
+                <a href="{{ url_for('rutas.edit', ruta_id=ruta.id) }}" class="btn btn-outline-primary btn-sm">Editar</a>
+                {% endif %}
+                {% if current_user.has_permission('rutas.delete') %}
+                <form action="{{ url_for('rutas.delete', ruta_id=ruta.id) }}" method="post" class="d-inline">
+                  {{ csrf_token() }}
+                  <button class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Eliminar ruta?')">Eliminar</button>
+                </form>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="6" class="text-center text-muted">No hay rutas registradas.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
