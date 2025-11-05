@@ -21,7 +21,7 @@ Cree un archivo `.env` en la raíz con al menos:
 ```env
 SECRET_KEY=alguna_clave_segura
 API_BASE_URL=http://localhost:8000
-APP_NAME=RouteMaster Frontend
+APP_NAME=RouteMaster
 ```
 
 ## Ejecución

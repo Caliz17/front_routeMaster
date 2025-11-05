@@ -24,8 +24,32 @@ class User(UserMixin):
 
     @classmethod
     def from_api_response(cls, data: dict[str, Any], token: dict[str, Any] | None = None) -> "User":
+        # Debug completo de la respuesta
+        print("=" * 50)
+        print("FULL API RESPONSE DATA:")
+        print(data)
+        print("=" * 50)
+        
         role = data.get("role") if data else None
-        permissions = set(data.get("permissions", [])) if data else set()
+        
+        # Verifica la estructura real de los permisos
+        permissions_data = data.get("permissions")
+        print(f"Raw permissions data: {permissions_data}")
+        print(f"Type of permissions data: {type(permissions_data)}")
+        
+        if permissions_data is None:
+            print("WARNING: No 'permissions' key found in API response")
+            permissions = set()
+        elif isinstance(permissions_data, list):
+            permissions = set(permissions_data)
+        elif isinstance(permissions_data, str):
+            permissions = {permissions_data}
+        else:
+            print(f"WARNING: Unexpected permissions type: {type(permissions_data)}")
+            permissions = set()
+        
+        print(f"Final permissions set: {permissions}")
+        
         user = cls(
             id=data.get("id") if data else 0,
             username=data.get("username") or data.get("email"),
@@ -51,4 +75,18 @@ class User(UserMixin):
         return bool(self.role and self.role.get("name") == "admin")
 
     def has_permission(self, permission: str) -> bool:
-        return permission in self.permissions
+        print(f"Checking permission for user {self.id}: {permission}")
+        print(f"User permissions: {self.permissions}")
+        print(f"Is admin: {self.is_admin}")
+        print(f"Role: {self.role}")
+        
+        # Si el usuario tiene rol de admin, otorga todos los permisos
+        if self.is_admin:
+            print("User is admin, granting all permissions")
+            return True
+        
+        # Verifica si el permiso está directamente en los permisos del usuario
+        has_perm = permission in self.permissions
+        print(f"Permission {permission} in permissions: {has_perm}")
+        
+        return has_perm

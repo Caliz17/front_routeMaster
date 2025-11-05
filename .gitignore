@@ -1,0 +1,106 @@
+# ===============================
+# PYTHON / FLASK PROJECT GITIGNORE
+# ===============================
+
+# Entorno virtual
+venv/
+.env/
+.venv/
+env/
+ENV/
+env.bak/
+
+# Archivos de entorno / configuración local
+*.env
+*.local
+instance/
+config.pyc
+
+# Compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos temporales de editores
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+
+# Archivos de base de datos o SQLite locales
+*.sqlite3
+*.db
+*.sqlite
+
+# Archivos de dependencias o build
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Archivos creados por pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Archivos creados por pytest o coverage
+.coverage
+.tox/
+.nox/
+.cache/
+.pytest_cache/
+htmlcov/
+coverage.xml
+
+# Archivos de logs o depuración
+logs/
+*.log
+*.out
+
+# Archivos de IDEs
+.vscode/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# Archivos de Flask específicos
+instance/
+*.pem
+*.crt
+*.key
+
+# Archivos de Jupyter o IPython (si usas notebooks)
+.ipynb_checkpoints/
+*.ipynb
+
+# Archivos estáticos generados (si tienes build de frontend)
+app/static/dist/
+app/static/build/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de despliegue opcionales
+*.tar.gz
+*.zip
+*.bak
+*.old

@@ -12,5 +12,5 @@ class Config:
     WTF_CSRF_ENABLED = True
     SESSION_COOKIE_NAME = os.getenv("SESSION_COOKIE_NAME", "routemaster_session")
     API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
-    APP_NAME = os.getenv("APP_NAME", "RouteMaster Frontend")
+    APP_NAME = os.getenv("APP_NAME", "RouteMaster")
     PERMANENT_SESSION_LIFETIME = int(os.getenv("SESSION_LIFETIME", 60 * 60 * 4))

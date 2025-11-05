@@ -16,25 +16,91 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           {% if current_user.is_authenticated %}
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard.index') }}">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('productos.list_view') }}">Productos</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('clientes.list_view') }}">Clientes</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('pedidos.list_view') }}">Pedidos</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('rutas.list_view') }}">Rutas</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('users.profile') }}">Mi Perfil</a></li>
+          <ul class="navbar-nav me-auto align-items-center">
+            {% set active = request.endpoint %}
+            <li class="nav-item">
+              <a class="nav-link px-3 py-2 rounded-3 {% if 'dashboard' in active %}bg-white text-primary fw-semibold shadow-sm{% else %}text-white opacity-90 hover-opacity-100{% endif %}"
+                href="{{ url_for('dashboard.index') }}">
+                <i class="bi bi-speedometer2 me-1"></i> Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3 py-2 rounded-3 {% if 'productos' in active %}bg-white text-primary fw-semibold shadow-sm{% else %}text-white opacity-90 hover-opacity-100{% endif %}"
+                href="{{ url_for('productos.list_view') }}">
+                <i class="bi bi-box-seam me-1"></i> Productos
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3 py-2 rounded-3 {% if 'clientes' in active %}bg-white text-primary fw-semibold shadow-sm{% else %}text-white opacity-90 hover-opacity-100{% endif %}"
+                href="{{ url_for('clientes.list_view') }}">
+                <i class="bi bi-people me-1"></i> Clientes
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3 py-2 rounded-3 {% if 'pedidos' in active %}bg-white text-primary fw-semibold shadow-sm{% else %}text-white opacity-90 hover-opacity-100{% endif %}"
+                href="{{ url_for('pedidos.list_view') }}">
+                <i class="bi bi-truck me-1"></i> Pedidos
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3 py-2 rounded-3 {% if 'rutas' in active %}bg-white text-primary fw-semibold shadow-sm{% else %}text-white opacity-90 hover-opacity-100{% endif %}"
+                href="{{ url_for('rutas.list_view') }}">
+                <i class="bi bi-map me-1"></i> Rutas
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3 py-2 rounded-3 {% if 'users.profile' in active %}bg-white text-primary fw-semibold shadow-sm{% else %}text-white opacity-90 hover-opacity-100{% endif %}"
+                href="{{ url_for('users.profile') }}">
+                <i class="bi bi-person-circle me-1"></i> Mi Perfil
+              </a>
+            </li>
+
             {% if current_user.has_permission('users.manage') %}
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('users.manage') }}">Administrar usuarios</a></li>
+            <li class="nav-item">
+              <a class="nav-link px-3 py-2 rounded-3 {% if 'users.manage' in active %}bg-white text-primary fw-semibold shadow-sm{% else %}text-white opacity-90 hover-opacity-100{% endif %}"
+                href="{{ url_for('users.manage') }}">
+                <i class="bi bi-gear me-1"></i> Administrar
+              </a>
+            </li>
             {% endif %}
           </ul>
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><span class="navbar-text me-3">{{ current_user.username }}</span></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
+
+          <ul class="navbar-nav ms-auto align-items-center gap-3">
+            <!-- Avatar + Nombre -->
+            <li class="nav-item d-flex align-items-center">
+              <div class="bg-white text-primary fw-bold rounded-circle d-flex align-items-center justify-content-center me-2"
+                  style="width: 36px; height: 36px;">
+                {{ current_user.username[0]|upper }}
+              </div>
+              <span class="fw-semibold text-white">{{ current_user.username }}</span>
+            </li>
+
+            <!-- Botón de logout -->
+            <li class="nav-item">
+              <a class="btn btn-light btn-sm text-primary fw-semibold d-flex align-items-center gap-1 px-3"
+                href="{{ url_for('auth.logout') }}">
+                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+              </a>
+            </li>
           </ul>
+
           {% else %}
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Iniciar sesión</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Registrarse</a></li>
+          <!-- Bootstrap Icons -->
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+          <ul class="navbar-nav ms-auto align-items-center">
+            <li class="nav-item me-2">
+              <a class="btn btn-outline-light btn-sm d-flex align-items-center gap-1"
+                href="{{ url_for('auth.login') }}">
+                <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-light btn-sm text-primary fw-semibold d-flex align-items-center gap-1"
+                href="{{ url_for('auth.register') }}">
+                <i class="bi bi-person-plus"></i> Registrarse
+              </a>
+            </li>
           </ul>
           {% endif %}
         </div>
