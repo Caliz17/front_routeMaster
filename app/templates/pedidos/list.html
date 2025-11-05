@@ -39,10 +39,10 @@
                 <a href="{{ url_for('pedidos.update_estado', pedido_id=pedido.id) }}" class="btn btn-outline-primary btn-sm">Estado</a>
                 {% endif %}
                 {% if current_user.has_permission('pedidos.delete') %}
-                <form action="{{ url_for('pedidos.delete', pedido_id=pedido.id) }}" method="post" class="d-inline">
-                  {{ csrf_token() }}
-                  <button class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Eliminar pedido?')">Eliminar</button>
-                </form>
+                <button type="button" class="btn btn-outline-danger btn-sm" 
+                        onclick="if(confirm('¿Eliminar pedido?')) { document.getElementById('delete-form-{{ pedido.id }}').submit(); }">
+                  Eliminar
+                </button>
                 {% endif %}
               </div>
             </td>
@@ -57,4 +57,12 @@
     </div>
   </div>
 </div>
+
+{% for pedido in pedidos %}
+  {% if current_user.has_permission('pedidos.delete') %}
+  <form id="delete-form-{{ pedido.id }}" action="{{ url_for('pedidos.delete', pedido_id=pedido.id) }}" method="post" class="d-none">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  </form>
+  {% endif %}
+{% endfor %}
 {% endblock %}

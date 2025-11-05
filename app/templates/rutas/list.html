@@ -38,10 +38,10 @@
                 <a href="{{ url_for('rutas.edit', ruta_id=ruta.id) }}" class="btn btn-outline-primary btn-sm">Editar</a>
                 {% endif %}
                 {% if current_user.has_permission('rutas.delete') %}
-                <form action="{{ url_for('rutas.delete', ruta_id=ruta.id) }}" method="post" class="d-inline">
-                  {{ csrf_token() }}
-                  <button class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Eliminar ruta?')">Eliminar</button>
-                </form>
+                <button type="button" class="btn btn-outline-danger btn-sm" 
+                        onclick="if(confirm('¿Eliminar ruta?')) { document.getElementById('delete-form-{{ ruta.id }}').submit(); }">
+                  Eliminar
+                </button>
                 {% endif %}
               </div>
             </td>
@@ -56,4 +56,12 @@
     </div>
   </div>
 </div>
+
+{% for ruta in rutas %}
+  {% if current_user.has_permission('rutas.delete') %}
+  <form id="delete-form-{{ ruta.id }}" action="{{ url_for('rutas.delete', ruta_id=ruta.id) }}" method="post" class="d-none">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  </form>
+  {% endif %}
+{% endfor %}
 {% endblock %}
