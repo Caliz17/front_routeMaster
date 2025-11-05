@@ -30,6 +30,7 @@ def create():
             "descripcion": form.descripcion.data,
             "precio": float(form.precio.data or 0),
             "stock": form.stock.data,
+            "estado": form.estado.data,
         }
         ProductoService.create(payload)
         return redirect(url_for("productos.list_view"))
