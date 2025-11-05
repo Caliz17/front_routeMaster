@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <h3 class="mb-4">{{ title }}</h3>
+        <form method="post">
+          {{ form.hidden_tag() }}
+          <div class="row g-3">
+            <div class="col-md-6">
+              {{ form.nombre.label(class='form-label') }}
+              {{ form.nombre(class='form-control form-control-lg') }}
+            </div>
+            <div class="col-md-6">
+              {{ form.tipo.label(class='form-label') }}
+              {{ form.tipo(class='form-select form-select-lg') }}
+            </div>
+            <div class="col-md-6">
+              {{ form.creada_por_id.label(class='form-label') }}
+              {{ form.creada_por_id(class='form-control form-control-lg') }}
+            </div>
+          </div>
+          <hr class="my-4">
+          <h5>Clientes asignados</h5>
+          {% for cliente_form in form.clientes %}
+          <div class="row g-3 align-items-end mb-2">
+            <div class="col-md-8">
+              {{ cliente_form.cliente_id.label(class='form-label') }}
+              {{ cliente_form.cliente_id(class='form-select form-select-lg') }}
+            </div>
+            <div class="col-md-4">
+              {{ cliente_form.orden.label(class='form-label') }}
+              {{ cliente_form.orden(class='form-control form-control-lg') }}
+            </div>
+          </div>
+          {% endfor %}
+          <div class="alert alert-info mt-3">
+            <strong>Tip:</strong> Puedes ajustar el orden de visita modificando el número de orden para cada cliente.
+          </div>
+          <div class="d-flex justify-content-between mt-4">
+            <a href="{{ url_for('rutas.list_view') }}" class="btn btn-outline-secondary">Cancelar</a>
+            {{ form.submit(class='btn btn-primary') }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

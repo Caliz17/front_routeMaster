@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title or app_name }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('dashboard.index') }}">{{ app_name }}</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          {% if current_user.is_authenticated %}
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard.index') }}">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('productos.list_view') }}">Productos</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('clientes.list_view') }}">Clientes</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('pedidos.list_view') }}">Pedidos</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('rutas.list_view') }}">Rutas</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('users.profile') }}">Mi Perfil</a></li>
+            {% if current_user.has_permission('users.manage') %}
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('users.manage') }}">Administrar usuarios</a></li>
+            {% endif %}
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><span class="navbar-text me-3">{{ current_user.username }}</span></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
+          </ul>
+          {% else %}
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Iniciar sesión</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Registrarse</a></li>
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    <main class="container py-4">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+          {% for category, message in messages %}
+          <div class="toast align-items-center text-bg-{{ 'success' if category == 'message' else category }} show" role="alert">
+            <div class="d-flex">
+              <div class="toast-body">{{ message }}</div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.querySelectorAll('.toast').forEach(function(toastEl){
+        new bootstrap.Toast(toastEl, {delay: 4000}).show();
+      });
+    </script>
+  </body>
+</html>

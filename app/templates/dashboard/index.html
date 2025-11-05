@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+  <div>
+    <h1 class="display-6 fw-bold">Resumen general</h1>
+    <p class="text-muted mb-0">Panel central de métricas y actividad del sistema.</p>
+  </div>
+</div>
+<div class="row g-4 mb-4">
+  <div class="col-md-3">
+    <div class="card metric-card gradient-primary text-white">
+      <div class="card-body">
+        <p class="text-uppercase small mb-1">Usuarios</p>
+        <h2 class="fw-bold">{{ resumen.total_usuarios or 0 }}</h2>
+        <span class="small">Usuarios activos: {{ resumen.usuarios_activos or 0 }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card metric-card gradient-success text-white">
+      <div class="card-body">
+        <p class="text-uppercase small mb-1">Clientes</p>
+        <h2 class="fw-bold">{{ resumen.total_clientes or 0 }}</h2>
+        <span class="small">Nuevos este mes: {{ resumen.clientes_mes or 0 }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card metric-card gradient-warning text-white">
+      <div class="card-body">
+        <p class="text-uppercase small mb-1">Pedidos</p>
+        <h2 class="fw-bold">{{ resumen.total_pedidos or 0 }}</h2>
+        <span class="small">Pendientes: {{ metricas.pedidos_pendientes or 0 }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card metric-card gradient-info text-white">
+      <div class="card-body">
+        <p class="text-uppercase small mb-1">Ventas</p>
+        <h2 class="fw-bold">{{ metricas.total_ventas or 0 }}</h2>
+        <span class="small">Variación mensual: {{ metricas.variacion_mensual or 0 }}%</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Productos más populares</h5>
+        <span class="badge bg-primary">Top {{ productos_populares|length }}</span>
+      </div>
+      <div class="card-body">
+        {% if productos_populares %}
+        <ul class="list-group list-group-flush">
+          {% for producto in productos_populares %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="mb-0">{{ producto.nombre }}</h6>
+              <small class="text-muted">SKU: {{ producto.sku }}</small>
+            </div>
+            <span class="badge bg-success rounded-pill">{{ producto.total_vendido }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted">Sin datos disponibles.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-header bg-white border-0">
+        <h5 class="mb-0">Pedidos pendientes</h5>
+      </div>
+      <div class="card-body">
+        {% if pedidos_pendientes %}
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for pedido in pedidos_pendientes %}
+              <tr>
+                <td>#{{ pedido.id }}</td>
+                <td>{{ pedido.cliente_nombre }}</td>
+                <td>{{ pedido.total }}</td>
+                <td><span class="badge bg-warning text-dark">{{ pedido.estado }}</span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p class="text-muted">No hay pedidos pendientes.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row g-4 mt-1">
+  <div class="col-lg-6">
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-header bg-white border-0">
+        <h5 class="mb-0">Rutas activas</h5>
+      </div>
+      <div class="card-body">
+        {% if rutas_activas %}
+        <ul class="list-group list-group-flush">
+          {% for ruta in rutas_activas %}
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between">
+              <div>
+                <h6 class="mb-1">{{ ruta.nombre }}</h6>
+                <small class="text-muted">Tipo: {{ ruta.tipo }}</small>
+              </div>
+              <span class="badge bg-info text-dark">Clientes: {{ ruta.rutas_clientes|length }}</span>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted">No hay rutas activas.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-header bg-white border-0">
+        <h5 class="mb-0">Ventas mensuales</h5>
+      </div>
+      <div class="card-body">
+        {% if ventas_mensuales %}
+        <ul class="list-group list-group-flush">
+          {% for mes in ventas_mensuales %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ mes.mes }}</span>
+            <span class="fw-semibold">{{ mes.total }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted">Sin información de ventas.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

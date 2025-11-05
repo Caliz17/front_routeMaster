@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <h3 class="mb-4">{{ title }}</h3>
+        <form method="post">
+          {{ form.hidden_tag() }}
+          <div class="row g-3">
+            <div class="col-md-6">
+              {{ form.nombre.label(class='form-label') }}
+              {{ form.nombre(class='form-control form-control-lg') }}
+              {% for error in form.nombre.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-6">
+              {{ form.nit.label(class='form-label') }}
+              {{ form.nit(class='form-control form-control-lg') }}
+              {% for error in form.nit.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-6">
+              {{ form.telefono.label(class='form-label') }}
+              {{ form.telefono(class='form-control form-control-lg') }}
+            </div>
+            <div class="col-md-6">
+              {{ form.contacto.label(class='form-label') }}
+              {{ form.contacto(class='form-control form-control-lg') }}
+            </div>
+            <div class="col-12">
+              {{ form.direccion.label(class='form-label') }}
+              {{ form.direccion(class='form-control form-control-lg') }}
+            </div>
+            <div class="col-md-6">
+              {{ form.latitud.label(class='form-label') }}
+              {{ form.latitud(class='form-control form-control-lg') }}
+            </div>
+            <div class="col-md-6">
+              {{ form.longitud.label(class='form-label') }}
+              {{ form.longitud(class='form-control form-control-lg') }}
+            </div>
+            <div class="col-12">
+              {{ form.direccion_geocodificada.label(class='form-label') }}
+              {{ form.direccion_geocodificada(class='form-control form-control-lg') }}
+            </div>
+            <div class="col-12">
+              <div class="form-check form-switch">
+                {{ form.estado(class='form-check-input') }}
+                {{ form.estado.label(class='form-check-label') }}
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between mt-4">
+            <a href="{{ url_for('clientes.list_view') }}" class="btn btn-outline-secondary">Cancelar</a>
+            {{ form.submit(class='btn btn-primary') }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
