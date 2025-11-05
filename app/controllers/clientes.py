@@ -34,6 +34,7 @@ def create():
             "latitud": float(form.latitud.data) if form.latitud.data is not None else None,
             "longitud": float(form.longitud.data) if form.longitud.data is not None else None,
             "direccion_geocodificada": form.direccion_geocodificada.data,
+            "estado": form.estado.data,
         })
         ClienteService.create(payload)
         return redirect(url_for("clientes.list_view"))

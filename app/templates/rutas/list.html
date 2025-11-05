@@ -32,7 +32,7 @@
             <td>{{ ruta.rutas_clientes|length }}</td>
             <td>{{ ruta.rutas_asignadas|length }}</td>
             <td class="text-end">
-              <div class="btn-group">
+              <div class="btn-group" role="group">
                 <a href="{{ url_for('rutas.optimizada', ruta_id=ruta.id) }}" class="btn btn-outline-info btn-sm">Optimizada</a>
                 {% if current_user.has_permission('rutas.update') %}
                 <a href="{{ url_for('rutas.edit', ruta_id=ruta.id) }}" class="btn btn-outline-primary btn-sm">Editar</a>

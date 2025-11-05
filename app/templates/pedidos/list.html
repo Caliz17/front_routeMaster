@@ -34,7 +34,7 @@
             <td>{{ pedido.total }}</td>
             <td><span class="badge bg-info text-dark">{{ pedido.estado }}</span></td>
             <td class="text-end">
-              <div class="btn-group">
+              <div class="btn-group" role="group">
                 {% if current_user.has_permission('pedidos.update') %}
                 <a href="{{ url_for('pedidos.update_estado', pedido_id=pedido.id) }}" class="btn btn-outline-primary btn-sm">Estado</a>
                 {% endif %}
